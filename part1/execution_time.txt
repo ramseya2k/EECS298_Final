@@ -7,14 +7,21 @@ numpy_matmul = 0.000072 seconds
 
 TRIAL 2
 ----------------------------------
-original_matrix = 
-optimal_matrix = 
+original_matrix = 0.000677 seconds
+optimal_matrix = 0.000610 seconds
 numpy_matmul = 0.000060 seconds
 ----------------------------------
 
 TRIAL 3
 ----------------------------------
-original_matrix = 
-optimal_matrix = 
+original_matrix = 0.000690 seconds
+optimal_matrix = 0.000643 seconds 
 numpy_matmul = 0.000058 seconds
+----------------------------------
+
+AVERAGE
+----------------------------------
+original_matrix = (6.71 * 10^-4) seconds 
+optimal_matrix = (6.29 * 10^-4) seconds 
+numpy_matmul = (6.33 * 10^-5) seconds
 ----------------------------------
