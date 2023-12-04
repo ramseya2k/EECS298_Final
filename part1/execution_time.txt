@@ -1,0 +1,3 @@
+original_matrix = 0.000647 seconds
+optimal_matrix = 0.000635 seconds
+numpy_matmul = 
