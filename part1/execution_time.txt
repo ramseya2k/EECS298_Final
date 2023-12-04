@@ -2,19 +2,19 @@ TRIAL 1
 ----------------------------------
 original_matrix = 0.000647 seconds
 optimal_matrix = 0.000635 seconds
-numpy_matmul = 0.00072 seconds
+numpy_matmul = 0.000072 seconds
 ----------------------------------
 
 TRIAL 2
 ----------------------------------
 original_matrix = 
 optimal_matrix = 
-numpy_matmul = 
+numpy_matmul = 0.000060 seconds
 ----------------------------------
 
 TRIAL 3
 ----------------------------------
 original_matrix = 
 optimal_matrix = 
-numpy_matmul = 
+numpy_matmul = 0.000058 seconds
 ----------------------------------
