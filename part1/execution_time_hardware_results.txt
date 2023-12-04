@@ -25,3 +25,21 @@ original_matrix = (6.71 * 10^-4) seconds
 optimal_matrix = (6.29 * 10^-4) seconds 
 numpy_matmul = (6.33 * 10^-5) seconds
 ----------------------------------
+
+ORIGINAL MATRIX
+----------------------------------
+Frequency = 137 Mhz
+FF = 5117
+LUT = 4574
+BRAM = 12
+DSP = 3
+----------------------------------
+
+OPTIMAL MATRIX
+----------------------------------
+Frequency = 137 Mhz
+FF = 3494
+LUT = 4867
+BRAM = 8
+DSP = 48
+----------------------------------
