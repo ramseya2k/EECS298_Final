@@ -6,6 +6,11 @@
 void Convolution3(float input[32][32], float weights[16][6][5][5], float bias[16], float output[16][10][10]);
 void FC6(float input[16][10][10], float weights[10][120], float bias[10], float output[10]);
 
+template <typename T>
+T relu(T x) {
+    return x > 0 ? x : 0;
+}
+
 void pl_lenet5_fpga(float image[32][32],
                     float conv3_weights[16][6][5][5], float conv3_bias[16], float conv3_output[16][10][10],
                     float fc6_weights[10][120], float fc6_bias[10], float fc6_output[10])
@@ -36,7 +41,7 @@ void Convolution3(float input[32][32], float weights[16][6][5][5], float bias[16
                         }
                     }
                 }
-                output[co][h][w] = hls::relu(conv_sum); // Apply ReLU activation
+                output[co][h][w] = relu(conv_sum); // Apply ReLU activation
             }
         }
     }
@@ -63,6 +68,6 @@ void FC6(float input[16][10][10], float weights[10][120], float bias[10], float 
         for (int ci = 0; ci < 120; ci++) {
             fc_sum += weights[co][ci] * fc6_input[ci];
         }
-        output[co] = hls::relu(fc_sum); // Apply ReLU activation
+        output[co] = relu(fc_sum); // Apply ReLU activation
     }
 }
