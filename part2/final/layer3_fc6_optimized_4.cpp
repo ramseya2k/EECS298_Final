@@ -3,38 +3,13 @@
 #include "hls_math.h"
 
 // Forward declarations
-void Convolution3(float input[16][10][10], float weights[16][6][5][5], float bias[16], float output[16][10][10]);
+void Convolution3(float input[32][32], float weights[16][6][5][5], float bias[16], float output[16][10][10]);
 void FC6(float input[16][10][10], float weights[10][120], float bias[10], float output[10]);
 
 void pl_lenet5_fpga(float image[32][32],
                     float conv3_weights[16][6][5][5], float conv3_bias[16], float conv3_output[16][10][10],
                     float fc6_weights[10][120], float fc6_bias[10], float fc6_output[10])
 {
-    // Define AXI4 Master interfaces for input and output arrays
-    #pragma HLS INTERFACE m_axi port=image offset=slave bundle=data0
-    #pragma HLS INTERFACE s_axilite register port=image bundle=ctrl
-
-    #pragma HLS INTERFACE m_axi port=conv3_weights offset=slave bundle=data1
-    #pragma HLS INTERFACE s_axilite register port=conv3_weights bundle=ctrl
-
-    #pragma HLS INTERFACE m_axi port=conv3_bias offset=slave bundle=data2
-    #pragma HLS INTERFACE s_axilite register port=conv3_bias bundle=ctrl
-
-    #pragma HLS INTERFACE m_axi port=conv3_output offset=slave bundle=data3
-    #pragma HLS INTERFACE s_axilite register port=conv3_output bundle=ctrl
-
-    #pragma HLS INTERFACE m_axi port=fc6_weights offset=slave bundle=data4
-    #pragma HLS INTERFACE s_axilite register port=fc6_weights bundle=ctrl
-
-    #pragma HLS INTERFACE m_axi port=fc6_bias offset=slave bundle=data5
-    #pragma HLS INTERFACE s_axilite register port=fc6_bias bundle=ctrl
-
-    #pragma HLS INTERFACE m_axi port=fc6_output offset=slave bundle=data6
-    #pragma HLS INTERFACE s_axilite register port=fc6_output bundle=ctrl
-
-    // Define a control interface for the function
-    #pragma HLS INTERFACE s_axilite register port=return bundle=ctrl
-
     // Convolution Layer 3
     Convolution3(image, conv3_weights, conv3_bias, conv3_output);
 
@@ -43,7 +18,7 @@ void pl_lenet5_fpga(float image[32][32],
 }
 
 // Convolution Layer 3 operation
-void Convolution3(float input[16][10][10], float weights[16][6][5][5], float bias[16], float output[16][10][10])
+void Convolution3(float input[32][32], float weights[16][6][5][5], float bias[16], float output[16][10][10])
 {
     #pragma HLS ARRAY_PARTITION variable=weights complete dim=1
     #pragma HLS PIPELINE II=1
@@ -57,7 +32,7 @@ void Convolution3(float input[16][10][10], float weights[16][6][5][5], float bia
                 for (int ci = 0; ci < 6; ci++) {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
-                            conv_sum += weights[co][ci][i][j] * input[ci][h + i][w + j];
+                            conv_sum += weights[co][ci][i][j] * input[h + i][w + j];
                         }
                     }
                 }
