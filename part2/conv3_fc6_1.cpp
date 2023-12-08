@@ -7,14 +7,6 @@ void convolution3(float input[6][14][14], float weights[16][6][5][5],
                   float bias[16], float output[16][10][10],
                   bool enable) 
 {
-  #pragma HLS PIPELINE
-  #pragma HLS INTERFACE m_axi port=input offset=slave bundle=axi_port0
-  #pragma HLS INTERFACE m_axi port=weights offset=slave bundle=axi_port1
-  #pragma HLS INTERFACE m_axi port=bias offset=slave bundle=axi_port2
-  #pragma HLS INTERFACE m_axi port=output offset=slave bundle=axi_port3
-  #pragma HLS INTERFACE s_axilite port=enable register bundle=ctrl
-  #pragma HLS INTERFACE s_axilite register port=return bundle=ctrl
-
   if (enable) {
     for (int co = 0; co < 16; co++)
       for (int h = 0; h < 10; h++)
@@ -34,14 +26,6 @@ void fc6(const float input[120][1][1], const float weights[10][120][1][1],
          const float bias[10], float output[10],
          bool enable) 
 {
-  #pragma HLS PIPELINE
-  #pragma HLS INTERFACE m_axi port=input offset=slave bundle=axi_port0
-  #pragma HLS INTERFACE m_axi port=weights offset=slave bundle=axi_port1
-  #pragma HLS INTERFACE m_axi port=bias offset=slave bundle=axi_port2
-  #pragma HLS INTERFACE m_axi port=output offset=slave bundle=axi_port3
-  #pragma HLS INTERFACE s_axilite port=enable register bundle=ctrl
-  #pragma HLS INTERFACE s_axilite register port=return bundle=ctrl
-
   if (enable) {
     for (int n = 0; n < 10; n++) {
       output[n] = 0;
