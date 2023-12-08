@@ -9,7 +9,7 @@ overlay = Overlay("your_overlay.bit")
 overlay.download()
 
 # Max number of test samples in LeNet is 10,000
-NUM_TESTS = 10000
+NUM_TESTS = 100
 
 # Static allocation of test images
 images = np.zeros((NUM_TESTS, 28, 28), dtype=np.uint8)
