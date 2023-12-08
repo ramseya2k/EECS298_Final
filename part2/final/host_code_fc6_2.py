@@ -128,4 +128,7 @@ def combined_inference(images, labels, conv1_weights, conv1_bias, conv3_weights,
 
     print("\nTotal Execution Time:   {:.6f} seconds ({:d} images)".format(time_span, NUM_TESTS))
     print("Average Time per Image: {:.6f} seconds".format(time_span / NUM_TESTS))
-   
+
+    # Call the combined inference function
+    combined_inference(images, labels, conv1_weights, conv1_bias, conv3_weights, conv3_bias,
+                    conv5_weights, conv5_bias, fc6_weights, fc6_bias)
