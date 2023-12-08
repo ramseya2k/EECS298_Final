@@ -37,7 +37,106 @@ fc6_weights = np.zeros((10, 120, 1, 1), dtype=np.float32)
 fc6_bias = np.zeros(10, dtype=np.float32)
 fc6_output = np.zeros(10, dtype=np.float32)
 
-# Function definitions (previous code)
+# Function definitions
+def relu(input):
+    return np.maximum(0, input)
+
+
+def convolution1(input, weights, bias, output):
+    for co in range(6):
+        for h in range(28):
+            for w in range(28):
+                conv_sum = np.sum(weights[co, 0, :, :] * input[0, h:h+5, w:w+5])
+                output[co, h, w] = conv_sum + bias[co]
+
+
+def relu1(input, output):
+    output[:] = relu(input)
+
+
+def max_pooling2(input, output):
+    for c in range(6):
+        for h in range(14):
+            for w in range(14):
+                output[c, h, w] = np.max(input[c, h*2:h*2+2, w*2:w*2+2])
+
+
+def relu2(input, output):
+    output[:] = relu(input)
+
+
+def convolution3(input, weights, bias, output):
+    for co in range(16):
+        for h in range(10):
+            for w in range(10):
+                conv_sum = np.sum(weights[co, :, :, :] * input[:, h:h+5, w:w+5])
+                output[co, h, w] = conv_sum + bias[co]
+
+
+def relu3(input, output):
+    output[:] = relu(input)
+
+
+def max_pooling4(input, output):
+    for c in range(16):
+        for h in range(5):
+            for w in range(5):
+                output[c, h, w] = np.max(input[c, h*2:h*2+2, w*2:w*2+2])
+
+
+def relu4(input, output):
+    output[:] = relu(input)
+
+
+def convolution5(input, weights, bias, output):
+    for co in range(120):
+        conv_sum = np.sum(weights[co, :, :, :] * input[:, :, :])
+        output[co, 0, 0] = conv_sum + bias[co]
+
+
+def relu5(input, output):
+    output[:] = relu(input)
+
+
+def fc6(input, weights, bias, output):
+    output[:] = np.dot(weights.reshape(10, 120), input.reshape(120)) + bias
+
+
+def relu6(input, output):
+    output[:] = relu(input)
+
+
+def parse_mnist_images(filename, images):
+    with open(filename, 'rb') as file:
+        _ = struct.unpack('>I', file.read(4))  # magic number
+        _ = struct.unpack('>I', file.read(4))  # number of images
+        _ = struct.unpack('>I', file.read(4))  # number of rows
+        _ = struct.unpack('>I', file.read(4))  # number of columns
+        images[:] = np.frombuffer(file.read(NUM_TESTS * 28 * 28), dtype=np.uint8).reshape((NUM_TESTS, 28, 28))
+
+
+def parse_mnist_labels(filename, labels):
+    with open(filename, 'rb') as file:
+        _ = struct.unpack('>I', file.read(4))  # magic number
+        _ = struct.unpack('>I', file.read(4))  # number of labels
+        labels[:] = np.frombuffer(file.read(NUM_TESTS), dtype=np.uint8)
+
+
+def parse_parameters(filename):
+    with open(filename, 'rb') as file:
+        conv1_weights[:] = np.frombuffer(file.read(150 * 4), dtype=np.float32).reshape((6, 1, 5, 5))
+        conv1_bias[:] = np.frombuffer(file.read(6 * 4), dtype=np.float32)
+        conv3_weights[:] = np.frombuffer(file.read(2400 * 4), dtype=np.float32).reshape((16, 6, 5, 5))
+        conv3_bias[:] = np.frombuffer(file.read(16 * 4), dtype=np.float32)
+        conv5_weights[:] = np.frombuffer(file.read(48000 * 4), dtype=np.float32).reshape((120, 16, 5, 5))
+        conv5_bias[:] = np.frombuffer(file.read(120 * 4), dtype=np.float32)
+        fc6_weights[:] = np.frombuffer(file.read(1200 * 4), dtype=np.float32).reshape((10, 120, 1, 1))
+        fc6_bias[:] = np.frombuffer(file.read(10 * 4), dtype=np.float32)
+
+
+def get_image(images, idx, image):
+    image[:] = -1.0
+    image[0, 2:30, 2:30] = images[idx] / 255.0 * 2.0 - 1.0
 
 # Function to call FPGA fc6
 def fpga_fc6(input, weights, bias, output, enable):
