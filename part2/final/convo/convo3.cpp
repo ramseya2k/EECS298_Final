@@ -36,4 +36,3 @@ void convolution3(float input[6][14][14], float weights[16][6][5][5],
         }
     }
 }
-}
