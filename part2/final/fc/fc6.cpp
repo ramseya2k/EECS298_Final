@@ -18,6 +18,7 @@ void fc6(const float input[120][1][1], const float weights[10][120][1][1],
          {
             #pragma HLS PIPELINE II=1
             float sum = 0;
+         #pragma HLS unroll factor=120
             for(int c = 0; c < 120; c++) 
             {
                 sum += weights[n][c][0][0] * input[c][0][0];
